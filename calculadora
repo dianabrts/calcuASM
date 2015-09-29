@@ -1,0 +1,88 @@
+MODEL	SMALL	
+
+.STACK
+;--------------------------INICIALIZACION DE PILA----------------------------
+
+	ORG	100H
+
+.DATA
+;-------------------------DECLARACION DE VARIABLES---------------------------
+
+    MESGG1	DB		'Menu',13,10,13,10,'$'
+    MESGG2  DB		'Opcion 1: Suma',13,10,'$'
+    MESGG3  DB		'Opcion 2: Resta',13,10,'$'
+    MESGG4  DB		'Opcion 3: Multipliacion',13,10,'$'
+    MESGG5  DB		'Opcion 4: Division',13,10,'$'
+    MESGG6  DB		'Opcion 5: Salir',13,10,'$'
+    MESGG7  DB		'Elige una opcion: ',13,10,13,10,'$'
+
+
+.CODE
+;----------------------------INICIO DE PROGRAMA------------------------------
+
+INICIO:
+	MOV AX,@DATA
+  	MOV DS,AX			     ;OBTENEMOS LA DIRECCION DEL SEGMENTO DE DATOS
+
+    CALL CLRSCR        ;llamar a subrutina para limpiar pantalla
+
+    ;imprimir mensaje MENU
+  	LEA  DX,MESGG1		 ;LEA instruccion similar a OFFSET
+  	CALL PRINT 
+
+    ;imprimir mensaje Opcion 1
+    LEA  DX,MESGG2     ;LEA instruccion similar a OFFSET
+    CALL PRINT 
+
+    ;imprimir mensaje Opcion 2
+    LEA  DX,MESGG3     ;LEA instruccion similar a OFFSET
+    CALL PRINT 
+
+    ;imprimir mensaje Opcion 3
+    LEA  DX,MESGG4     ;LEA instruccion similar a OFFSET
+    CALL PRINT 
+
+    ;imprimir mensaje Opcion 4
+    LEA  DX,MESGG5     ;LEA instruccion similar a OFFSET
+    CALL PRINT 
+
+    ;imprimir mensaje Opcion 5
+    LEA  DX,MESGG6     ;LEA instruccion similar a OFFSET
+    CALL PRINT 
+
+    ;imprimir mensaje Elige una opcion
+    LEA  DX,MESGG7     ;LEA instruccion similar a OFFSET
+    CALL PRINT 
+
+    CALL PAUSA   
+    CALL SALIDA
+	
+;-------------------------------SUBRUTINAS------------------------------
+
+CLRSCR PROC NEAR ;limpia la pantalla
+  MOV AH,00H 
+  MOV AL,03H
+  INT 10H
+RET
+CLRSCR ENDP
+
+PRINT PROC NEAR   ;imprime cadena indexada por DX
+  MOV AH,09H      ;(servicio)peticion para desplegar
+  INT 21H         ;interrupcion que llama al DOS
+ RET
+PRINT ENDP
+
+PAUSA PROC NEAR ;espera una tecla           ;leer un caracter de teclado sin ECO, resultado en AL
+  MOV AH,08H 
+  INT 21H; interrupcion que llama al DOS
+RET
+PAUSA ENDP
+
+SALIDA PROC NEAR ;salida al DOS sin errores
+  MOV AX,4C00H 
+  INT 21H
+RET
+SALIDA ENDP
+
+;-------------------------------FIN DEL PROGRAMA------------------------------
+END INICIO
